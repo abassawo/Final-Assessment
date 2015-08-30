@@ -141,7 +141,6 @@ public class Part1PaceCalculatorTests {
         inputTimeSec.setText("22");
 
         buttonCalculate.callOnClick();
-
         Assertions.assertThat(inputPaceMin).containsText("");
         Assertions.assertThat(inputPaceSec).containsText("");
     }
