@@ -30,7 +30,7 @@ public class PaceFragment extends Fragment{
 
 
     Double distDouble;
-    Double timeDouble;
+    int minutes; int seconds;
     Double paceDouble;
 
     private boolean distFilled; //for checking which we shall calculate;
@@ -69,18 +69,18 @@ public class PaceFragment extends Fragment{
             return ;
         } else {
             if (distFilled && timeFilled) {
-                calculatePace(timeDouble, distDouble);
+                calculatePace(seconds, distDouble);
             } else if (distFilled && paceFilled) {
                 calculateTime(distDouble, paceDouble);
             } else if (timeFilled && paceFilled) {
-                calculateDistance(timeDouble, paceDouble);
+                calculateDistance(seconds, paceDouble);
             }
         }
 
 
     }
 
-    public void calculateDistance(Double time, Double pace){
+    public void calculateDistance(int time, Double pace){
             Double distance = time / pace;
             distField.setText(String.valueOf(distance));
 
@@ -99,7 +99,7 @@ public class PaceFragment extends Fragment{
             }
     }
 
-    public void calculatePace(Double time, Double distance){
+    public void calculatePace(int time, Double distance){
             Double pace = time / distance;
             String pace_Str = String.valueOf(pace);
             if (pace_Str.contains(".")) {
@@ -135,14 +135,13 @@ public class PaceFragment extends Fragment{
             if (timeFilled) {
                 try {
                     if (isEmpty(time_Sec_Field)) {
-                        timeDouble = Double.parseDouble(time_Min_Field.getText().toString());
+                        seconds = Integer.parseInt(time_Min_Field.getText().toString());
                     } else if (isEmpty(time_Min_Field)) {
-                        timeDouble = Double.parseDouble(String.valueOf("0." + time_Sec_Field.getText()));
+                        seconds = 60 * (Integer.parseInt(String.valueOf("0." + time_Sec_Field.getText())));
                     } else {
-                        int timeMin = Integer.parseInt((time_Min_Field.getText().toString()));
-                        int timeSec = Integer.parseInt((time_Sec_Field.getText().toString()));
-                        timeDouble = Double.parseDouble(String.valueOf(timeMin + "." + timeSec));
-                        Log.d("concat_test", String.valueOf(timeDouble));
+                        int mins_in_seconds = 60 * (Integer.parseInt(String.valueOf("0." + time_Sec_Field.getText())));
+                        int seconds_field_txt = Integer.parseInt(time_Min_Field.getText().toString());
+                       seconds = mins_in_seconds + seconds_field_txt ;
                     }
                 } catch(Exception e){
 
